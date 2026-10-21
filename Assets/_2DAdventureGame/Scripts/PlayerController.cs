@@ -3,18 +3,22 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     public InputAction MoveAction;
+    Rigidbody2D rigidbody2d;
+    Vector2 move;
     void Start()
     {
-        //QualitySettings.vSyncCount = 0;
-        //Application.targetFrameRate = 10; персонаж почав рухатись дуже повільно
         MoveAction.Enable();
+        rigidbody2d = GetComponent<Rigidbody2D>();
     }
     void Update()
     {
-        Vector2 move = MoveAction.ReadValue<Vector2>();
+        move = MoveAction.ReadValue<Vector2>();
         Debug.Log(move);
-        Vector2 position = (Vector2)transform.position
-        + move * 0.01f; //move * 3.0f * Time.deltaTime; персонаж рухається ривками
-        transform.position = position;
+    }
+    void FixedUpdate()
+    {
+        Vector2 position = (Vector2)rigidbody2d.position
+        + move * 3.0f * Time.deltaTime;
+        rigidbody2d.MovePosition(position);
     }
 }
